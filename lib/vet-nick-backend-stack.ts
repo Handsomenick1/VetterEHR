@@ -20,65 +20,244 @@ export class VetNickBackendStack extends Stack {
       value: APIAppointment.urlForPath("/payment")
     });
 
-    const setAppointment_lambda = createAppointmentLambda(this, 'setAppointment', 'setAppointment.lambda_handler', {
-      "region": this.region
+    // DynamoDB table
+    const payment_table = createTable(this, 'Vet_payment', 'paymentId');
+    const appointment_table = createTable(this, 'Vet_appointment', 'appointmentId')
+
+    const setAppointment_lambda = createAppointmentLambda(this, 'Vet-setAppointment', 'setAppointment.lambda_handler', {
+      "region": this.region,
+      "payment_table": payment_table.tableName,
+      "appointment_table" : appointment_table.tableName
+
     });
-    const getAppointment_lambda = createAppointmentLambda(this, 'getAppointment', 'getAppointment.lambda_handler', {
-      "region": this.region
+    const getAppointment_lambda = createAppointmentLambda(this, 'Vet-getAppointment', 'getAppointment.lambda_handler', {
+      "region": this.region,
+      "payment_table": payment_table.tableName,
+      "appointment_table" : appointment_table.tableName
     });
-    const cancelAppointment_lambda = createAppointmentLambda(this, 'cancelAppointment', 'cancelAppointment.lambda_handler', {
-      "region": this.region
+    const cancelAppointment_lambda = createAppointmentLambda(this, 'Vet-cancelAppointment', 'cancelAppointment.lambda_handler', {
+      "region": this.region,
+      "payment_table": payment_table.tableName,
+      "appointment_table" : appointment_table.tableName
     });
-    const confirmAppointment_lambda = createAppointmentLambda(this, 'confirmAppointment', 'confirmAppointment.lambda_handler', {
-      "region": this.region
+    const confirmAppointment_lambda = createAppointmentLambda(this, 'Vet-confirmAppointment', 'confirmAppointment.lambda_handler', {
+      "region": this.region,
+      "payment_table": payment_table.tableName,
+      "appointment_table" : appointment_table.tableName
     });
-    const createPayment_lambda = createPaymentLambda(this, 'createPayment', 'createPayment.lambda_handler', {
-      "region": this.region
+    const createPayment_lambda = createPaymentLambda(this, 'Vet-createPayment', 'createPayment.lambda_handler', {
+      "region": this.region,
+      "payment_table": payment_table.tableName,
+      "appointment_table" : appointment_table.tableName
     });
-    const updatePayment_lambda = createPaymentLambda(this, 'updatePayment', 'updatePayment.lambda_handler', {
-      "region": this.region
+    const updatePayment_lambda = createPaymentLambda(this, 'Vet-updatePayment', 'updatePayment.lambda_handler', {
+      "region": this.region,
+      "payment_table": payment_table.tableName,
+      "appointment_table" : appointment_table.tableName
     });
-    const getPayment_lambda = createPaymentLambda(this, 'getPayment', 'getPayment.lambda_handler', {
-      "region": this.region
+    const getPayment_lambda = createPaymentLambda(this, 'Vet-getPayment', 'getPayment.lambda_handler', {
+      "region": this.region,
+      "payment_table": payment_table.tableName,
+      "appointment_table" : appointment_table.tableName
     });
-    
-    const payment_table = createTable(this, 'payment', 'paymentId');
-    const Appointment_table = createTable(this, 'AppointmentTable', 'AppointmentTableId')
 
     const vet_topic = createTopic(this, 'vet_topic', 'VetTopic','topic-vet')
 
-    const postApmtResource = APIAppointment.root.addResource("setting");
-    const getApmtResource = APIAppointment.root.addResource("getting");
-    const cancelApmtResource = APIAppointment.root.addResource("cancel");
-    const confirmApmtResource = APIAppointment.root.addResource("confirmation");
-    const createPaymentResource = APIPayment.root.addResource("new");
-    const updatePaymentResource = APIPayment.root.addResource("updating");
-    const getPaymentResource = APIPayment.root.addResource("getting");
+    const postApmtResource = APIAppointment.root.addResource("appointment", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    const getApmtResource = APIAppointment.root.addResource("appointmentinfo", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    const cancelApmtResource = APIAppointment.root.addResource("cancel", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    const confirmApmtResource = APIAppointment.root.addResource("confirmation", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    const createPaymentResource = APIPayment.root.addResource("new", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    const updatePaymentResource = APIPayment.root.addResource("updating", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    const getPaymentResource = APIPayment.root.addResource("paymentinfo", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
 
     postApmtResource.addMethod(
       'POST',
-      new apigw.LambdaIntegration(setAppointment_lambda)
-    )
+      new apigw.LambdaIntegration(setAppointment_lambda, {proxy: false, 
+        integrationResponses: [
+        {statusCode: "200"}
+        ]}),
+      {
+        methodResponses: [
+          {
+            statusCode: "200",
+            responseParameters: {
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Origin": true
+            }
+          }
+        ]
+      });
+
     getApmtResource.addMethod(
       'GET',
       new apigw.LambdaIntegration(getAppointment_lambda)
     )
     cancelApmtResource.addMethod(
       'PATCH',
-      new apigw.LambdaIntegration(cancelAppointment_lambda)
-    )
+      new apigw.LambdaIntegration(cancelAppointment_lambda, {proxy: false, 
+        integrationResponses: [
+        {statusCode: "200"}
+        ]}),
+      {
+        methodResponses: [
+          {
+            statusCode: "200",
+            responseParameters: {
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Origin": true
+            }
+          }
+        ]
+      });
     confirmApmtResource.addMethod(
       'PATCH',
-      new apigw.LambdaIntegration(confirmAppointment_lambda)
-    )
+      new apigw.LambdaIntegration(confirmAppointment_lambda, {proxy: false, 
+        integrationResponses: [
+        {statusCode: "200"}
+        ]}),
+      {
+        methodResponses: [
+          {
+            statusCode: "200",
+            responseParameters: {
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Origin": true
+            }
+          }
+        ]
+      });
     createPaymentResource.addMethod(
       'POST',
-      new apigw.LambdaIntegration(createPayment_lambda)
-    )
+      new apigw.LambdaIntegration(createPayment_lambda, {proxy: false, 
+        integrationResponses: [
+        {statusCode: "200"}
+        ]}),
+      {
+        methodResponses: [
+          {
+            statusCode: "200",
+            responseParameters: {
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Origin": true
+            }
+          }
+        ]
+      });
+
     updatePaymentResource.addMethod(
       'PATCH',
-      new apigw.LambdaIntegration(updatePayment_lambda)
-    )
+      new apigw.LambdaIntegration(updatePayment_lambda, {proxy: false, 
+        integrationResponses: [
+        {statusCode: "200"}
+        ]}),
+      {
+        methodResponses: [
+          {
+            statusCode: "200",
+            responseParameters: {
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Origin": true
+            }
+          }
+        ]
+      });
     getPaymentResource.addMethod(
       'GET',
       new apigw.LambdaIntegration(updatePayment_lambda)
@@ -87,10 +266,10 @@ export class VetNickBackendStack extends Stack {
     payment_table.grantFullAccess(updatePayment_lambda);
     payment_table.grantFullAccess(getPayment_lambda);
 
-    Appointment_table.grantFullAccess(setAppointment_lambda);
-    Appointment_table.grantFullAccess(getAppointment_lambda);
-    Appointment_table.grantFullAccess(cancelAppointment_lambda);
-    Appointment_table.grantFullAccess(confirmAppointment_lambda);
+    appointment_table.grantFullAccess(setAppointment_lambda);
+    appointment_table.grantFullAccess(getAppointment_lambda);
+    appointment_table.grantFullAccess(cancelAppointment_lambda);
+    appointment_table.grantFullAccess(confirmAppointment_lambda);
 
     vet_topic.grantPublish(cancelAppointment_lambda);
     vet_topic.grantPublish(confirmAppointment_lambda);
