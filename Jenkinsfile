@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         NEW_VERSION = '1.3.0'
     }
@@ -16,6 +16,8 @@ pipeline {
             steps {
                 echo 'Testing the application...'
                 sh 'pip3 install pytest'
+                sh 'pip3 install boto3'
+                sh 'pip3 install moto'
                 sh 'pytest lib/lambdafunctions/tests'
             }
         }
