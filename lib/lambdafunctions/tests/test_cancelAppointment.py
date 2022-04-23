@@ -1,9 +1,9 @@
 import sys
 
 sys.path.append("..")
-from appointment.cancelAppointment import lambda_handler
-from appointment.aws_helper.dynamoDB import put_item_db, get_item_db
-from appointment.constants.AppointmentStatus import AppointmentStatus
+from lib.lambdafunctions.appointment.cancelAppointment import lambda_handler
+from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db, get_item_db
+from lib.lambdafunctions.appointment.constants.AppointmentStatus import AppointmentStatus
 import pytest
 import unittest
 import boto3
