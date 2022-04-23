@@ -1,10 +1,15 @@
 pipeline {
     agent any
-
+    environment {
+        NEW_VERSION = '1.3.0'
+    }
     stages {
         stage("Build") {
             steps {
                 echo 'Building the application...'
+                sh 'python --version'
+                sh 'pip install pytest'
+                sh 'pytest lib/lambdafunctions/tests'
             }
         }
         stage('Test') {
@@ -20,6 +25,19 @@ pipeline {
                 }
             }
         }
+    }
+
+    post {
+        always {
+            // sending email to team
+        }
+        success {
+
+        }
+        failure {
+
+        }
+
     }
 }
 

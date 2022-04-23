@@ -2,21 +2,22 @@ import os
 import boto3
 import logging
 
-from classes.Appointment import Appointment
-from constants.Response import returnResponse
-from aws_helper.dynamoDB import put_item_db
+from appointment.classes.Appointment import Appointment
+from appointment.constants.Response import returnResponse
+from appointment.aws_helper.dynamoDB import put_item_db
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-region = os.environ["region"]
-appointment_table = os.environ["appointment_table"]
-appointmentTable = boto3.resource("dynamodb", region).Table(appointment_table)
 
 def lambda_handler(event, context):
     """
     customerId, clinicId, Date, Reason
     """
     logger.info("**** Start set appointment service --->")
+
+    region = os.environ["region"]
+    appointment_table = os.environ["appointment_table"]
+    appointmentTable = boto3.resource("dynamodb", region).Table(appointment_table)
 
     eventBody = event
     if type(event) == str:

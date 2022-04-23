@@ -4,17 +4,17 @@ import boto3
 import os
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-from constants.Response import returnResponse
-from aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
-from constants.AppointmentStatus import AppointmentStatus
-
-region = os.environ["region"]
-appointment_table = os.environ["appointment_table"]
-appointmentTable = boto3.resource("dynamodb", region).Table(appointment_table)
+from appointment.constants.Response import returnResponse
+from appointment.aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
+from appointment.constants.AppointmentStatus import AppointmentStatus
 
 def lambda_handler(event, context):
     logger.info("**** Start cancel service --->")
     logger.debug('event:{}'.format(json.dumps(event)))
+
+    region = os.environ["region"]
+    appointment_table = os.environ["appointment_table"]
+    appointmentTable = boto3.resource("dynamodb", region).Table(appointment_table)
 
     eventBody = event
     if type(event) == str:

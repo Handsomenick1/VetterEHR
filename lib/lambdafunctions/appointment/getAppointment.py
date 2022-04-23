@@ -3,16 +3,12 @@ import logging
 import boto3
 import os
 
-from constants.Response import returnResponse
-from constants.NoItemError import NoitemError
-from aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
+from appointment.constants.Response import returnResponse
+from appointment.constants.NoItemError import NoitemError
+from appointment.aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-
-region = os.environ["region"]
-appointment_table = os.environ["appointment_table"]
-appointmentTable = boto3.resource("dynamodb", region).Table(appointment_table)
 
 def lambda_handler(event, context):
     """
@@ -20,6 +16,10 @@ def lambda_handler(event, context):
     """
     logger.info("**** Start retrieve appointment Info service --->")
     logger.debug('event:{}'.format(json.dumps(event)))
+    region = os.environ["region"]
+    appointment_table = os.environ["appointment_table"]
+    appointmentTable = boto3.resource("dynamodb", region).Table(appointment_table)
+
     eventBody = event['queryStringParameters']
 
     if "appointmentId" not in eventBody and "clinicId" not in eventBody and "customerId" not in eventBody and "doctorId" not in eventBody:
