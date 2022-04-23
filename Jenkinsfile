@@ -7,9 +7,8 @@ pipeline {
         stage("Build") {
             steps {
                 echo 'Building the application...'
-                withPythonEnv('/usr/bin/python3') {
-                    sh 'python --version'
-                }
+                sh 'python --version'
+                
             }
         }
         stage('Test') {
