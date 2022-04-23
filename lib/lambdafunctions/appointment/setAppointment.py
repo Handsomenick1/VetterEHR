@@ -2,9 +2,9 @@ import os
 import boto3
 import logging
 
-from appointment.classes.Appointment import Appointment
-from appointment.constants.Response import returnResponse
-from appointment.aws_helper.dynamoDB import put_item_db
+from lib.lambdafunctions.appointment.classes.Appointment import Appointment
+from lib.lambdafunctions.appointment.constants.Response import returnResponse
+from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
