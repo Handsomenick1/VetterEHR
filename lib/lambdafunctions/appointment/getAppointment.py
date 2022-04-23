@@ -3,9 +3,9 @@ import logging
 import boto3
 import os
 
-from appointment.constants.Response import returnResponse
-from appointment.constants.NoItemError import NoitemError
-from appointment.aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
+from lib.lambdafunctions.appointment.constants.Response import returnResponse
+from lib.lambdafunctions.appointment.constants.NoItemError import NoitemError
+from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
