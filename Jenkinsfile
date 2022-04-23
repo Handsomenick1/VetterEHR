@@ -15,9 +15,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing the application...'
-                sh 'pip3 install pytest'
-                sh 'pip3 install boto3'
-                sh 'pip3 install moto'
                 sh 'pytest lib/lambdafunctions/tests'
             }
         }
