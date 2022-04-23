@@ -25,19 +25,6 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            // sending email to team
-        }
-        success {
-
-        }
-        failure {
-
-        }
-
-    }
 }
 
 node {
