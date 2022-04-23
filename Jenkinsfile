@@ -9,14 +9,14 @@ pipeline {
         stage("Build") {
             steps {
                 echo 'Building the application...'
-                sh 'python --version'
+                sh 'python3 --version'
                 
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing the application...'
-                sh 'pip install pytest'
+                sh 'pip3 install pytest'
                 sh 'pytest lib/lambdafunctions/tests'
             }
         }
