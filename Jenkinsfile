@@ -8,14 +8,13 @@ pipeline {
             steps {
                 echo 'Building the application...'
                 sh 'python --version'
-                sh 'pip install pytest'
-                sh 'pytest lib/lambdafunctions/tests'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing the application...'
-                
+                sh 'pip install pytest'
+                sh 'pytest lib/lambdafunctions/tests'
             }
         }
         stage('Deploy') {
