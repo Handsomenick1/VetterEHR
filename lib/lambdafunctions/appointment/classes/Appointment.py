@@ -1,6 +1,6 @@
 import uuid
 import json
-from appointment.constants.AppointmentStatus import AppointmentStatus
+from lib.lambdafunctions.appointment.constants.AppointmentStatus import AppointmentStatus
 
 class Appointment:
     def __init__(self, list_info) -> None:
