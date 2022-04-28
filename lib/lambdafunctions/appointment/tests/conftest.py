@@ -6,6 +6,11 @@ from moto import mock_s3, mock_dynamodb2
 
 os.environ["region"] = "us-east-1"
 os.environ["appointment_table"] = "test_table"
+
+@pytest.fixture(autouse=True)
+def change_test_dir(request, monkeypatch):
+    monkeypatch.chdir(request.fspath.dirname)
+    
 @pytest.fixture
 def aws_credentials():
     """Mocked AWS Credentials for moto."""

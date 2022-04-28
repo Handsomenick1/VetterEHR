@@ -4,9 +4,11 @@ import boto3
 import os
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-from lib.lambdafunctions.appointment.constants.Response import returnResponse
-from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
-from lib.lambdafunctions.appointment.constants.AppointmentStatus import AppointmentStatus
+import sys 
+sys.path.append("..") 
+from constants.Response import returnResponse
+from aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
+from constants.AppointmentStatus import AppointmentStatus
 
 def lambda_handler(event, context):
     logger.info("**** Start cancel service --->")

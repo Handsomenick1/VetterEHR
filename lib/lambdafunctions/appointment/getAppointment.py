@@ -2,10 +2,11 @@ import json
 import logging
 import boto3
 import os
-
-from lib.lambdafunctions.appointment.constants.Response import returnResponse
-from lib.lambdafunctions.appointment.constants.NoItemError import NoitemError
-from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
+import sys 
+sys.path.append("..") 
+from constants.Response import returnResponse
+from constants.NoItemError import NoitemError
+from aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)

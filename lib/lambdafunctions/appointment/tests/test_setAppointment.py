@@ -1,6 +1,4 @@
-import sys
 
-sys.path.append("..")
 from lib.lambdafunctions.appointment.setAppointment import lambda_handler
 import pytest
 import unittest

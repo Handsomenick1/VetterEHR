@@ -5,7 +5,7 @@ sys.path.append("..")
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 from boto3.dynamodb.conditions import Key, Attr
-from lib.lambdafunctions.appointment.constants.NoItemError import NoitemError
+from constants.NoItemError import NoitemError
 
 def put_item_db(table, item):
 
