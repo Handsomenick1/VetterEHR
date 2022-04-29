@@ -43,7 +43,7 @@ class Appointment:
         self.status = appointmentstatus
         return True
         
-    def getAppointmentJson(self):
+    def getAppointmentJSON(self):
         return json.dumps({
             "appointmentId" : self.getId(),
             "clinicId" : self.getclinicId(),

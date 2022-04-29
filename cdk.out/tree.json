@@ -1393,7 +1393,7 @@
                           "Ref": "VetPayment91077744"
                         },
                         "deploymentId": {
-                          "Ref": "VetPaymentDeployment9152B18999157b649612e0b9725b9440a264dc0e"
+                          "Ref": "VetPaymentDeployment9152B189e0529f5abe998be421b94bc2f9ef6546"
                         },
                         "stageName": "prod"
                       }
@@ -1828,13 +1828,13 @@
                           "version": "2.17.0"
                         }
                       },
-                      "PATCH": {
-                        "id": "PATCH",
-                        "path": "VetNickBackendStack/Vet-Payment/Default/updating/PATCH",
+                      "POST": {
+                        "id": "POST",
+                        "path": "VetNickBackendStack/Vet-Payment/Default/updating/POST",
                         "children": {
-                          "ApiPermission.VetNickBackendStackVetPaymentAA497959.PATCH..updating": {
-                            "id": "ApiPermission.VetNickBackendStackVetPaymentAA497959.PATCH..updating",
-                            "path": "VetNickBackendStack/Vet-Payment/Default/updating/PATCH/ApiPermission.VetNickBackendStackVetPaymentAA497959.PATCH..updating",
+                          "ApiPermission.VetNickBackendStackVetPaymentAA497959.POST..updating": {
+                            "id": "ApiPermission.VetNickBackendStackVetPaymentAA497959.POST..updating",
+                            "path": "VetNickBackendStack/Vet-Payment/Default/updating/POST/ApiPermission.VetNickBackendStackVetPaymentAA497959.POST..updating",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
@@ -1870,7 +1870,7 @@
                                       {
                                         "Ref": "VetPaymentDeploymentStageprod92CF2271"
                                       },
-                                      "/PATCH/updating"
+                                      "/POST/updating"
                                     ]
                                   ]
                                 }
@@ -1881,9 +1881,9 @@
                               "version": "2.17.0"
                             }
                           },
-                          "ApiPermission.Test.VetNickBackendStackVetPaymentAA497959.PATCH..updating": {
-                            "id": "ApiPermission.Test.VetNickBackendStackVetPaymentAA497959.PATCH..updating",
-                            "path": "VetNickBackendStack/Vet-Payment/Default/updating/PATCH/ApiPermission.Test.VetNickBackendStackVetPaymentAA497959.PATCH..updating",
+                          "ApiPermission.Test.VetNickBackendStackVetPaymentAA497959.POST..updating": {
+                            "id": "ApiPermission.Test.VetNickBackendStackVetPaymentAA497959.POST..updating",
+                            "path": "VetNickBackendStack/Vet-Payment/Default/updating/POST/ApiPermission.Test.VetNickBackendStackVetPaymentAA497959.POST..updating",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                               "aws:cdk:cloudformation:props": {
@@ -1915,7 +1915,7 @@
                                       {
                                         "Ref": "VetPayment91077744"
                                       },
-                                      "/test-invoke-stage/PATCH/updating"
+                                      "/test-invoke-stage/POST/updating"
                                     ]
                                   ]
                                 }
@@ -1928,11 +1928,11 @@
                           },
                           "Resource": {
                             "id": "Resource",
-                            "path": "VetNickBackendStack/Vet-Payment/Default/updating/PATCH/Resource",
+                            "path": "VetNickBackendStack/Vet-Payment/Default/updating/POST/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
                               "aws:cdk:cloudformation:props": {
-                                "httpMethod": "PATCH",
+                                "httpMethod": "POST",
                                 "resourceId": {
                                   "Ref": "VetPaymentupdating550B5EDF"
                                 },
@@ -2100,7 +2100,7 @@
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "VetupdatePayment216C3B20",
+                                    "VetgetPayment2B41ADFF",
                                     "Arn"
                                   ]
                                 },
@@ -2149,7 +2149,7 @@
                                 "action": "lambda:InvokeFunction",
                                 "functionName": {
                                   "Fn::GetAtt": [
-                                    "VetupdatePayment216C3B20",
+                                    "VetgetPayment2B41ADFF",
                                     "Arn"
                                   ]
                                 },
@@ -2216,7 +2216,7 @@
                                         ":lambda:path/2015-03-31/functions/",
                                         {
                                           "Fn::GetAtt": [
-                                            "VetupdatePayment216C3B20",
+                                            "VetgetPayment2B41ADFF",
                                             "Arn"
                                           ]
                                         },
@@ -2226,6 +2226,98 @@
                                   },
                                   "integrationHttpMethod": "POST"
                                 }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.aws_apigateway.CfnMethod",
+                              "version": "2.17.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.Method",
+                          "version": "2.17.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigateway.Resource",
+                      "version": "2.17.0"
+                    }
+                  },
+                  "webhook": {
+                    "id": "webhook",
+                    "path": "VetNickBackendStack/Vet-Payment/Default/webhook",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "VetNickBackendStack/Vet-Payment/Default/webhook/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGateway::Resource",
+                          "aws:cdk:cloudformation:props": {
+                            "parentId": {
+                              "Fn::GetAtt": [
+                                "VetPayment91077744",
+                                "RootResourceId"
+                              ]
+                            },
+                            "pathPart": "webhook",
+                            "restApiId": {
+                              "Ref": "VetPayment91077744"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigateway.CfnResource",
+                          "version": "2.17.0"
+                        }
+                      },
+                      "OPTIONS": {
+                        "id": "OPTIONS",
+                        "path": "VetNickBackendStack/Vet-Payment/Default/webhook/OPTIONS",
+                        "children": {
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "VetNickBackendStack/Vet-Payment/Default/webhook/OPTIONS/Resource",
+                            "attributes": {
+                              "aws:cdk:cloudformation:type": "AWS::ApiGateway::Method",
+                              "aws:cdk:cloudformation:props": {
+                                "httpMethod": "OPTIONS",
+                                "resourceId": {
+                                  "Ref": "VetPaymentwebhookE89B6E33"
+                                },
+                                "restApiId": {
+                                  "Ref": "VetPayment91077744"
+                                },
+                                "authorizationType": "NONE",
+                                "integration": {
+                                  "type": "MOCK",
+                                  "requestTemplates": {
+                                    "application/json": "{ statusCode: 200 }"
+                                  },
+                                  "integrationResponses": [
+                                    {
+                                      "statusCode": "204",
+                                      "responseParameters": {
+                                        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                                        "method.response.header.Access-Control-Allow-Origin": "'*'",
+                                        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
+                                        "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                                      }
+                                    }
+                                  ]
+                                },
+                                "methodResponses": [
+                                  {
+                                    "statusCode": "204",
+                                    "responseParameters": {
+                                      "method.response.header.Access-Control-Allow-Headers": true,
+                                      "method.response.header.Access-Control-Allow-Origin": true,
+                                      "method.response.header.Access-Control-Allow-Methods": true,
+                                      "method.response.header.Access-Control-Allow-Credentials": true
+                                    }
+                                  }
+                                ]
                               }
                             },
                             "constructInfo": {
@@ -2285,13 +2377,13 @@
                   "aws:cdk:cloudformation:props": {
                     "keySchema": [
                       {
-                        "attributeName": "paymentId",
+                        "attributeName": "orderId",
                         "keyType": "HASH"
                       }
                     ],
                     "attributeDefinitions": [
                       {
-                        "attributeName": "paymentId",
+                        "attributeName": "orderId",
                         "attributeType": "S"
                       }
                     ],
@@ -2505,7 +2597,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "cecb8508448b0b6f4cc9d156fb8c2a23d36b22c5264bdf1b7acee70006d43a49.zip"
+                      "s3Key": "7ec0344d4c0070f04760de475ff460e170638ac738ea939e5f0a7e11924a2ce7.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -2518,7 +2610,7 @@
                         "region": {
                           "Ref": "AWS::Region"
                         },
-                        "payment_table": {
+                        "order_table": {
                           "Ref": "VetpaymentF4F4FD0B"
                         },
                         "appointment_table": {
@@ -2681,7 +2773,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "cecb8508448b0b6f4cc9d156fb8c2a23d36b22c5264bdf1b7acee70006d43a49.zip"
+                      "s3Key": "7ec0344d4c0070f04760de475ff460e170638ac738ea939e5f0a7e11924a2ce7.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -2694,7 +2786,7 @@
                         "region": {
                           "Ref": "AWS::Region"
                         },
-                        "payment_table": {
+                        "order_table": {
                           "Ref": "VetpaymentF4F4FD0B"
                         },
                         "appointment_table": {
@@ -2864,7 +2956,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "cecb8508448b0b6f4cc9d156fb8c2a23d36b22c5264bdf1b7acee70006d43a49.zip"
+                      "s3Key": "7ec0344d4c0070f04760de475ff460e170638ac738ea939e5f0a7e11924a2ce7.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -2877,7 +2969,7 @@
                         "region": {
                           "Ref": "AWS::Region"
                         },
-                        "payment_table": {
+                        "order_table": {
                           "Ref": "VetpaymentF4F4FD0B"
                         },
                         "appointment_table": {
@@ -3047,7 +3139,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "cecb8508448b0b6f4cc9d156fb8c2a23d36b22c5264bdf1b7acee70006d43a49.zip"
+                      "s3Key": "7ec0344d4c0070f04760de475ff460e170638ac738ea939e5f0a7e11924a2ce7.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -3060,7 +3152,7 @@
                         "region": {
                           "Ref": "AWS::Region"
                         },
-                        "payment_table": {
+                        "order_table": {
                           "Ref": "VetpaymentF4F4FD0B"
                         },
                         "appointment_table": {
@@ -3082,6 +3174,14 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.17.0"
+            }
+          },
+          "stripeLayer1": {
+            "id": "stripeLayer1",
+            "path": "VetNickBackendStack/stripeLayer1",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
               "version": "2.17.0"
             }
           },
@@ -3223,7 +3323,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "2a766122b5a1e76d78ca3d2cb03cde6d4c467559e4d80642f8aa553a39b7a81c.zip"
+                      "s3Key": "9c4c6c479ad7ff36161cfabe30e84e2cecfe235365fd2220e4fd95954064d0cd.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -3236,7 +3336,7 @@
                         "region": {
                           "Ref": "AWS::Region"
                         },
-                        "payment_table": {
+                        "order_table": {
                           "Ref": "VetpaymentF4F4FD0B"
                         },
                         "appointment_table": {
@@ -3246,6 +3346,9 @@
                     },
                     "functionName": "Vet-createPayment",
                     "handler": "createPayment.lambda_handler",
+                    "layers": [
+                      "arn:aws:lambda:us-west-2:568187732893:layer:strip:1"
+                    ],
                     "memorySize": 512,
                     "runtime": "python3.9"
                   }
@@ -3258,6 +3361,14 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.17.0"
+            }
+          },
+          "stripeLayer2": {
+            "id": "stripeLayer2",
+            "path": "VetNickBackendStack/stripeLayer2",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
               "version": "2.17.0"
             }
           },
@@ -3406,7 +3517,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "2a766122b5a1e76d78ca3d2cb03cde6d4c467559e4d80642f8aa553a39b7a81c.zip"
+                      "s3Key": "9c4c6c479ad7ff36161cfabe30e84e2cecfe235365fd2220e4fd95954064d0cd.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -3419,7 +3530,7 @@
                         "region": {
                           "Ref": "AWS::Region"
                         },
-                        "payment_table": {
+                        "order_table": {
                           "Ref": "VetpaymentF4F4FD0B"
                         },
                         "appointment_table": {
@@ -3429,6 +3540,9 @@
                     },
                     "functionName": "Vet-updatePayment",
                     "handler": "updatePayment.lambda_handler",
+                    "layers": [
+                      "arn:aws:lambda:us-west-2:568187732893:layer:strip:1"
+                    ],
                     "memorySize": 512,
                     "runtime": "python3.9"
                   }
@@ -3441,6 +3555,14 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.17.0"
+            }
+          },
+          "stripeLayer3": {
+            "id": "stripeLayer3",
+            "path": "VetNickBackendStack/stripeLayer3",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
               "version": "2.17.0"
             }
           },
@@ -3582,7 +3704,7 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "2a766122b5a1e76d78ca3d2cb03cde6d4c467559e4d80642f8aa553a39b7a81c.zip"
+                      "s3Key": "9c4c6c479ad7ff36161cfabe30e84e2cecfe235365fd2220e4fd95954064d0cd.zip"
                     },
                     "role": {
                       "Fn::GetAtt": [
@@ -3595,7 +3717,7 @@
                         "region": {
                           "Ref": "AWS::Region"
                         },
-                        "payment_table": {
+                        "order_table": {
                           "Ref": "VetpaymentF4F4FD0B"
                         },
                         "appointment_table": {
@@ -3605,6 +3727,9 @@
                     },
                     "functionName": "Vet-getPayment",
                     "handler": "getPayment.lambda_handler",
+                    "layers": [
+                      "arn:aws:lambda:us-west-2:568187732893:layer:strip:1"
+                    ],
                     "memorySize": 512,
                     "runtime": "python3.9"
                   }

@@ -7,7 +7,7 @@ logger.setLevel(logging.DEBUG)
 import sys 
 sys.path.append("..") 
 from constants.Response import returnResponse
-from aws_helper.dynamoDB import put_item_db, get_item_db, get_items_db, update_item_db
+from aws_helper.dynamoDB import update_item_db
 from constants.AppointmentStatus import AppointmentStatus
 
 

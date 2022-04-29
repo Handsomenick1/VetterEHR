@@ -1,8 +1,32 @@
 import json
+import logging
+import stripe
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+stripe.api_key = ""
 
+from constants.Response import returnResponse
+from DAOimple.OrderDAOimple import OrderDAOimpl
 def lambda_handler(event, context):
     # TODO implement
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
-    }
+    logger.info("**** Start update payment service --->")
+    logger.debug('event:{}'.format(json.dumps(event)))
+    orderDAOimpl = OrderDAOimpl()
+    
+    eventBody = event
+    
+    orderId = eventBody["data"]["object"]["payment_link"]
+    paymentId = eventBody["data"]["object"]["payment_intent"]
+    orderStatus = eventBody["data"]["object"]["status"]
+    fields = {"paymentStatus" : True, "paymentId" : paymentId, "orderStatus" : orderStatus}
+    try:
+        # deactive the payment
+        stripe.PaymentLink.modify(
+            orderId,
+            active=False,
+        )
+        # update database
+        orderDAOimpl.updateOrder(orderId, fields)
+    except Exception as e:
+        return returnResponse(400, str(e))
+    return returnResponse(200, "Update paymentStatus successfully")

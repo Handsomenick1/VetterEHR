@@ -3,9 +3,8 @@ import { createTable } from './resource/dynamodb';
 import { createTopic } from './resource/sns';
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { createRestAPI } from './resource/apigateway'
+import { createRestAPI } from './resource/apigateway';
 import * as apigw from "aws-cdk-lib/aws-apigateway";
-
 export class VetNickBackendStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
@@ -19,48 +18,52 @@ export class VetNickBackendStack extends Stack {
     new CfnOutput(this, "PaymentEndpoint", {
       value: APIAppointment.urlForPath("/payment")
     });
-
+    
     // DynamoDB table
-    const payment_table = createTable(this, 'Vet_payment', 'paymentId');
+    const order_table = createTable(this, 'Vet_payment', 'orderId');
     const appointment_table = createTable(this, 'Vet_appointment', 'appointmentId')
 
+    // lambda    
     const setAppointment_lambda = createAppointmentLambda(this, 'Vet-setAppointment', 'setAppointment.lambda_handler', {
       "region": this.region,
-      "payment_table": payment_table.tableName,
+      "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
 
     });
     const getAppointment_lambda = createAppointmentLambda(this, 'Vet-getAppointment', 'getAppointment.lambda_handler', {
       "region": this.region,
-      "payment_table": payment_table.tableName,
+      "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
     const cancelAppointment_lambda = createAppointmentLambda(this, 'Vet-cancelAppointment', 'cancelAppointment.lambda_handler', {
       "region": this.region,
-      "payment_table": payment_table.tableName,
+      "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
     const confirmAppointment_lambda = createAppointmentLambda(this, 'Vet-confirmAppointment', 'confirmAppointment.lambda_handler', {
       "region": this.region,
-      "payment_table": payment_table.tableName,
+      "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
-    const createPayment_lambda = createPaymentLambda(this, 'Vet-createPayment', 'createPayment.lambda_handler', {
+    const createPayment_lambda = createPaymentLambda(this, 'Vet-createPayment', 'createPayment.lambda_handler', "stripeLayer1", {
       "region": this.region,
-      "payment_table": payment_table.tableName,
+      "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
-    const updatePayment_lambda = createPaymentLambda(this, 'Vet-updatePayment', 'updatePayment.lambda_handler', {
+    const updatePayment_lambda = createPaymentLambda(this, 'Vet-updatePayment', 'updatePayment.lambda_handler', "stripeLayer2", {
       "region": this.region,
-      "payment_table": payment_table.tableName,
+      "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
-    const getPayment_lambda = createPaymentLambda(this, 'Vet-getPayment', 'getPayment.lambda_handler', {
+    const getPayment_lambda = createPaymentLambda(this, 'Vet-getPayment', 'getPayment.lambda_handler', "stripeLayer3",{
       "region": this.region,
-      "payment_table": payment_table.tableName,
+      "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
 
+    
+    
+    // Topic
     const vet_topic = createTopic(this, 'vet_topic', 'VetTopic','topic-vet')
 
     const postApmtResource = APIAppointment.root.addResource("appointment", {
@@ -161,7 +164,7 @@ export class VetNickBackendStack extends Stack {
       }]
     }
     });
-
+    
     postApmtResource.addMethod(
       'POST',
       new apigw.LambdaIntegration(setAppointment_lambda, {proxy: false, 
@@ -241,7 +244,7 @@ export class VetNickBackendStack extends Stack {
       });
 
     updatePaymentResource.addMethod(
-      'PATCH',
+      'POST',
       new apigw.LambdaIntegration(updatePayment_lambda, {proxy: false, 
         integrationResponses: [
         {statusCode: "200"}
@@ -260,17 +263,17 @@ export class VetNickBackendStack extends Stack {
       });
     getPaymentResource.addMethod(
       'GET',
-      new apigw.LambdaIntegration(updatePayment_lambda)
+      new apigw.LambdaIntegration(getPayment_lambda)
     )
-    payment_table.grantFullAccess(createPayment_lambda);
-    payment_table.grantFullAccess(updatePayment_lambda);
-    payment_table.grantFullAccess(getPayment_lambda);
+    
+    order_table.grantFullAccess(createPayment_lambda);
+    order_table.grantFullAccess(updatePayment_lambda);
+    order_table.grantFullAccess(getPayment_lambda);
 
     appointment_table.grantFullAccess(setAppointment_lambda);
     appointment_table.grantFullAccess(getAppointment_lambda);
     appointment_table.grantFullAccess(cancelAppointment_lambda);
     appointment_table.grantFullAccess(confirmAppointment_lambda);
-
     vet_topic.grantPublish(cancelAppointment_lambda);
     vet_topic.grantPublish(confirmAppointment_lambda);
     vet_topic.grantPublish(updatePayment_lambda);
