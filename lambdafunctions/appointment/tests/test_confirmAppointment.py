@@ -1,18 +1,18 @@
 
 import sys 
 sys.path.append("..")
-from lib.lambdafunctions.appointment.cancelAppointment import lambda_handler
-from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db, get_item_db
-from lib.lambdafunctions.appointment.constants.AppointmentStatus import AppointmentStatus
+from lambdafunctions.appointment.confirmAppointment import lambda_handler
+from lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db, get_item_db
+from lambdafunctions.appointment.constants.AppointmentStatus import AppointmentStatus
 import pytest
 import unittest
 import boto3
 from moto import mock_dynamodb2
 
 @mock_dynamodb2
-class test_cancelAppointment(unittest.TestCase):
+class test_confirmAppointment(unittest.TestCase):
     
-    def test_cancelAppointment_happy(self):
+    def test_confirmAppointment_happy(self):
         dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
         table_name = 'test_table'
         table = dynamodb.create_table(TableName=table_name,
@@ -33,7 +33,6 @@ class test_cancelAppointment(unittest.TestCase):
                         
                 }
         put_item_db(table, data)
-
         event = {
             "body" : {
                 "appointmentId" : "appointmenttest"
@@ -42,9 +41,9 @@ class test_cancelAppointment(unittest.TestCase):
         response = lambda_handler(event, '')
         result = get_item_db(table, "appointmentId", "appointmenttest")
         assert response["statusCode"] == 200
-        assert result["appointmentStatus"] == AppointmentStatus.CANCEL.value
-    
-    def test_cancelAppointment_failed(self):
+        assert result["appointmentStatus"] == AppointmentStatus.CONFIRM.value
+
+    def test_confirmAppointment_failed(self):
         dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
         table_name = 'test_table'
         table = dynamodb.create_table(TableName=table_name,
@@ -65,11 +64,11 @@ class test_cancelAppointment(unittest.TestCase):
                         
                 }
         put_item_db(table, data)
-        
         event = {
             "body" : {
                 
             }
         }                
         response = lambda_handler(event, '')
+        result = get_item_db(table, "appointmentId", "appointmenttest")
         assert response["statusCode"] == 400

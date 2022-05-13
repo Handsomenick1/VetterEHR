@@ -15,7 +15,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing the application...'
-                sh 'pytest lib/lambdafunctions/appointment/tests'
+                sh 'pytest lambdafunctions/appointment/tests'
             }
         }
         stage('Deploy') {

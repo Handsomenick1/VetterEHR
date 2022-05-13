@@ -6,7 +6,7 @@ export function createAppointmentLambda(stack: Stack, funcName: string, handlerP
     let lambdaFunction = new lambda.Function(stack, funcName, {
         runtime:lambda.Runtime.PYTHON_3_9,
         functionName: funcName,
-        code: lambda.Code.fromAsset(path.join(__dirname, `../lambdafunctions/appointment`)),
+        code: lambda.Code.fromAsset(path.join(__dirname, `../../lambdafunctions/appointment`)),
         handler: handlerPath,
         environment: environVars,
         memorySize: 512,
@@ -23,7 +23,7 @@ export function createPaymentLambda(stack: Stack, funcName: string, handlerPath:
     let lambdaFunction = new lambda.Function(stack, funcName, {
         runtime:lambda.Runtime.PYTHON_3_9,
         functionName: funcName,
-        code: lambda.Code.fromAsset(path.join(__dirname, `../lambdafunctions/payment`)),
+        code: lambda.Code.fromAsset(path.join(__dirname, `../../lambdafunctions/payment`)),
         handler: handlerPath,
         environment: environVars,
         memorySize: 512,
