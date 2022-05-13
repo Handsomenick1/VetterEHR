@@ -24,23 +24,37 @@ export class VetNickBackendStack extends Stack {
     const appointment_table = createTable(this, 'Vet_appointment', 'appointmentId')
 
     // lambda    
-    const setAppointment_lambda = createAppointmentLambda(this, 'Vet-setAppointment', 'setAppointment.lambda_handler', {
-      "region": this.region,
-      "order_table": order_table.tableName,
-      "appointment_table" : appointment_table.tableName
-
-    });
-    const getAppointment_lambda = createAppointmentLambda(this, 'Vet-getAppointment', 'getAppointment.lambda_handler', {
+    const setAppointment_lambda = createAppointmentLambda(this, 'Vet-setAppointment', 'setAppointment.lambda_handler', 'jwt1',{
       "region": this.region,
       "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
-    const cancelAppointment_lambda = createAppointmentLambda(this, 'Vet-cancelAppointment', 'cancelAppointment.lambda_handler', {
+    const getAppointment_lambda = createAppointmentLambda(this, 'Vet-getAppointment', 'getAppointment.lambda_handler', 'jwt2', {
       "region": this.region,
       "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
-    const confirmAppointment_lambda = createAppointmentLambda(this, 'Vet-confirmAppointment', 'confirmAppointment.lambda_handler', {
+    const getAllAppointment_lambda = createAppointmentLambda(this, 'Vet-getAllAppointment', 'getAllAppointment.lambda_handler', 'jwt3',{
+      "region": this.region,
+      "order_table": order_table.tableName,
+      "appointment_table" : appointment_table.tableName
+    });
+    const cancelAppointment_lambda = createAppointmentLambda(this, 'Vet-cancelAppointment', 'cancelAppointment.lambda_handler', 'jwt4',{
+      "region": this.region,
+      "order_table": order_table.tableName,
+      "appointment_table" : appointment_table.tableName
+    });
+    const confirmAppointment_lambda = createAppointmentLambda(this, 'Vet-confirmAppointment', 'confirmAppointment.lambda_handler', 'jwt5',{
+      "region": this.region,
+      "order_table": order_table.tableName,
+      "appointment_table" : appointment_table.tableName
+    });
+    const updateAppointment_lambda = createAppointmentLambda(this, 'Vet-updateAppointment', 'updateAppointment.lambda_handler', 'jwt6',{
+      "region": this.region,
+      "order_table": order_table.tableName,
+      "appointment_table" : appointment_table.tableName
+    });
+    const getzoomlink_lambda = createAppointmentLambda(this, 'Vet-getZoomlink', 'zoomlink.lambda_handler', 'jwt7',{
       "region": this.region,
       "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
@@ -60,7 +74,11 @@ export class VetNickBackendStack extends Stack {
       "order_table": order_table.tableName,
       "appointment_table" : appointment_table.tableName
     });
-
+    const getallpayment_lambda = createPaymentLambda(this, 'Vet-getAllPayment', 'getAllpayment.lambda_handler', "stripeLayer4",{
+      "region": this.region,
+      "order_table": order_table.tableName,
+      "appointment_table" : appointment_table.tableName
+    });
     
     
     // Topic
@@ -108,7 +126,50 @@ export class VetNickBackendStack extends Stack {
       }]
     }
     });
+    const getallAptResource = APIAppointment.root.addResource("allappointment", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
     const confirmApmtResource = APIAppointment.root.addResource("confirmation", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    const updateApmtResource = APIAppointment.root.addResource("update", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+
+    const zoomlinkResource = APIAppointment.root.addResource("zoomlink", {
       defaultCorsPreflightOptions: {
         allowOrigins: ['*'],
         allowCredentials: true
@@ -164,7 +225,24 @@ export class VetNickBackendStack extends Stack {
       }]
     }
     });
-    
+    const getAllPaymentResource = APIPayment.root.addResource("allpaymentinfo", {
+      defaultCorsPreflightOptions: {
+        allowOrigins: ['*'],
+        allowCredentials: true
+    },
+    defaultMethodOptions: {
+      methodResponses: [{
+          statusCode: "200",
+          responseParameters: {
+            'method.response.header.Content-Type': true 
+          }
+      }]
+    }
+    });
+    getAllPaymentResource.addMethod(
+      "GET",
+      new apigw.LambdaIntegration(getallpayment_lambda)
+    );
     postApmtResource.addMethod(
       'POST',
       new apigw.LambdaIntegration(setAppointment_lambda, {proxy: false, 
@@ -188,6 +266,29 @@ export class VetNickBackendStack extends Stack {
       'GET',
       new apigw.LambdaIntegration(getAppointment_lambda)
     )
+    getallAptResource.addMethod(
+      'GET',
+      new apigw.LambdaIntegration(getAllAppointment_lambda)
+    )
+    zoomlinkResource.addMethod(
+      'POST',
+      new apigw.LambdaIntegration(getzoomlink_lambda, {proxy: false, 
+        integrationResponses: [
+        {statusCode: "200"}
+        ]}),
+      {
+        methodResponses: [
+          {
+            statusCode: "200",
+            responseParameters: {
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Origin": true
+            }
+          }
+        ]
+      });
+      
     cancelApmtResource.addMethod(
       'PATCH',
       new apigw.LambdaIntegration(cancelAppointment_lambda, {proxy: false, 
@@ -209,6 +310,24 @@ export class VetNickBackendStack extends Stack {
     confirmApmtResource.addMethod(
       'PATCH',
       new apigw.LambdaIntegration(confirmAppointment_lambda, {proxy: false, 
+        integrationResponses: [
+        {statusCode: "200"}
+        ]}),
+      {
+        methodResponses: [
+          {
+            statusCode: "200",
+            responseParameters: {
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Origin": true
+            }
+          }
+        ]
+      });
+    updateApmtResource.addMethod(
+      'PATCH',
+      new apigw.LambdaIntegration(updateAppointment_lambda, {proxy: false, 
         integrationResponses: [
         {statusCode: "200"}
         ]}),
@@ -269,11 +388,15 @@ export class VetNickBackendStack extends Stack {
     order_table.grantFullAccess(createPayment_lambda);
     order_table.grantFullAccess(updatePayment_lambda);
     order_table.grantFullAccess(getPayment_lambda);
+    order_table.grantFullAccess(getallpayment_lambda);
 
     appointment_table.grantFullAccess(setAppointment_lambda);
     appointment_table.grantFullAccess(getAppointment_lambda);
     appointment_table.grantFullAccess(cancelAppointment_lambda);
     appointment_table.grantFullAccess(confirmAppointment_lambda);
+    appointment_table.grantFullAccess(getAllAppointment_lambda);
+    appointment_table.grantFullAccess(updateAppointment_lambda);
+
     vet_topic.grantPublish(cancelAppointment_lambda);
     vet_topic.grantPublish(confirmAppointment_lambda);
     vet_topic.grantPublish(updatePayment_lambda);

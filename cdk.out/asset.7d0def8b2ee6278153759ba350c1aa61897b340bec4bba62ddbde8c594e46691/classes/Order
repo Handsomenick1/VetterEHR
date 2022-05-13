@@ -1,0 +1,12 @@
+import json
+import sys 
+sys.path.append("..")
+
+class Order:
+    def __init__(self, listInfo) -> None:
+        self.id = listInfo["id"]
+        self.customerId = listInfo["customerId"]
+        self.clinicId = listInfo["clinicId"]
+        self.totalPrice = listInfo["totalPrice"]
+        self.quantity = listInfo["quantity"]
+        self.paymentURL = listInfo["url"]

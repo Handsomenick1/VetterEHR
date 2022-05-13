@@ -3,12 +3,31 @@ import logging
 import decimal
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-stripe.api_key = ""
+stripe.api_key = "sk_test_51KtbEeDSCRMRGAORSZXluw4EzrJOi9sVLZIziyk6ttPeNaiYlAxLlKSY6jYy28MrR83KOx2xL9mszFMQhb1hSdCK006fwnJzWv"
 from constants.Response import returnResponse
 from DAOimple.OrderDAOimple import OrderDAOimpl
 from classes.Order import Order
 def lambda_handler(event, context):
-    # TODO implement
+    """
+    {
+    "body": {
+        "userId": "customer001",
+        "clinicId": "clinic001",
+        "productInfo": [
+        {
+            "productName": "abc",
+            "itemPrice": 100, (100 equals to $1.00)
+            "itemQuantity": 1
+        },
+        {
+            "productName": "def",
+            "itemPrice": 100,
+            "itemQuantity": 1
+        }
+        ]
+    }
+    }
+    """
     logger.info("**** Start create payment service --->")
     orderDAOimpl = OrderDAOimpl()
     eventBody = event

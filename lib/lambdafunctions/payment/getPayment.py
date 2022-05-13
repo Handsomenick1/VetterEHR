@@ -5,6 +5,9 @@ logger.setLevel(logging.DEBUG)
 from constants.Response import returnResponse
 from DAOimple.OrderDAOimple import OrderDAOimpl
 def lambda_handler(event, context):
+    """
+    orderId || customerId || clinicId
+    """
     # TODO implement
     logger.info("**** Start get payment service --->")
     logger.debug('event:{}'.format(json.dumps(event)))
@@ -12,7 +15,7 @@ def lambda_handler(event, context):
     eventBody = event['queryStringParameters']
     responseList = []
     if "orderId" not in eventBody and "clinicId" not in eventBody and "customerId" not in eventBody and "doctorId" not in eventBody:
-        return returnResponse(400, {"message": "Invalid input, no orderId/clinicId/customerId/doctorId"})
+        return returnResponse(400, {"message": "Invalid input, no orderId/clinicId/customerId"})
     
     try:
         if "orderId" in eventBody:
