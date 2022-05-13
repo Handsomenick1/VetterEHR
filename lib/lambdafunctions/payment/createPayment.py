@@ -3,7 +3,7 @@ import logging
 import decimal
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-stripe.api_key = "sk_test_51KtbEeDSCRMRGAORSZXluw4EzrJOi9sVLZIziyk6ttPeNaiYlAxLlKSY6jYy28MrR83KOx2xL9mszFMQhb1hSdCK006fwnJzWv"
+stripe.api_key = ""
 from constants.Response import returnResponse
 from DAOimple.OrderDAOimple import OrderDAOimpl
 from classes.Order import Order
