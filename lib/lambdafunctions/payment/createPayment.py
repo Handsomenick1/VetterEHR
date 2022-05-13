@@ -79,10 +79,10 @@ def lambda_handler(event, context):
     
     paymentResponse = stripe.PaymentLink.create(
         line_items = line_items,
-        # after_completion={
-        #     "type" : "hosted_confirmation",
-        #     "custom_message" : "Thank you for your payment"
-        # }
+         after_completion={
+            "type": "redirect",
+            "redirect": {"url": "https://development.d1wytw89nx1twe.amplifyapp.com"},
+         }
     )
     logger.debug("**** paymentResponse ---> {}".format(paymentResponse))
 
