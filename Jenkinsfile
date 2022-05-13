@@ -9,6 +9,7 @@ pipeline {
             steps {
                 echo 'Building the application...'
                 sh 'python3 --version'
+                sh 'pip -r requirements.txt'
                 
             }
         }
