@@ -2,7 +2,8 @@
 import logging
 import decimal
 import json
-
+import sys 
+sys.path.append("..")
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 

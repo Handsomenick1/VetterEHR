@@ -1,4 +1,6 @@
 
+import sys 
+sys.path.append("..")
 from lib.lambdafunctions.appointment.cancelAppointment import lambda_handler
 from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db, get_item_db
 from lib.lambdafunctions.appointment.constants.AppointmentStatus import AppointmentStatus

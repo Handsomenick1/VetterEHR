@@ -1,4 +1,6 @@
 
+import sys 
+sys.path.append("..")
 from lib.lambdafunctions.appointment.getAppointment import lambda_handler
 from lib.lambdafunctions.appointment.aws_helper.dynamoDB import put_item_db
 import pytest

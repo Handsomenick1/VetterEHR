@@ -1,3 +1,5 @@
+import sys 
+sys.path.append("..")
 class NoitemError(Exception):
     """Raised when the item is not in DynamoDB"""
     def __init__(self, item, table, message="The item is not in DynamoDB"):

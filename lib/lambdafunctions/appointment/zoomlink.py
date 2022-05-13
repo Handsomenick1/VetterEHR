@@ -8,8 +8,8 @@ from time import time
 from constants.Response import returnResponse
 
 # Enter your API key and your API secret
-API_KEY = 'eKzH8tmySViAi29U5WD_JA'
-API_SEC = 'FKLOygY0h00Tsr9SI0Z0jxVe00ke6SOJQGpf'
+API_KEY = ''
+API_SEC = ''
 
 def lambda_handler(event, context):
     """

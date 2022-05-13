@@ -1,3 +1,5 @@
+import sys 
+sys.path.append("..")
 from abc import ABC, abstractmethod
 
 class AppointmentDAO(ABC):
